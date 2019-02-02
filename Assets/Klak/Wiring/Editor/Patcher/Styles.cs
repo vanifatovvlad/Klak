@@ -37,7 +37,9 @@ namespace Klak.Wiring.Patcher
             get {
                 if (_pinIn == null) {
                     _pinIn = new GUIStyle(Graphs.Styles.triggerPinIn);
+                    _pinIn.font = Graphs.Styles.varPinIn.font;
                     _pinIn.stretchWidth = false;
+                    _pinIn.richText = true;
                 }
                 return _pinIn;
             }
@@ -50,10 +52,27 @@ namespace Klak.Wiring.Patcher
             get {
                 if (_pinOut == null) {
                     _pinOut = new GUIStyle(Graphs.Styles.triggerPinOut);
+                    _pinOut.font = Graphs.Styles.varPinOut.font;
                     _pinOut.stretchWidth = false;
+                    _pinOut.richText = true;
                 }
                 return _pinOut;
             }
+        }
+        
+        public static readonly GUIStyle varletContainer;
+
+        static Styles()
+        {
+            var builtinSkin = EditorGUIUtility.GetBuiltinSkin(EditorSkin.Inspector);
+
+            varletContainer = new GUIStyle(builtinSkin.GetStyle("IN BigTitle"))
+            {
+                margin = new RectOffset(0, 0, 5, 5),
+                padding = new RectOffset(0, 0, 5, 5),
+                stretchWidth = false,
+                stretchHeight = false
+            };
         }
     }
 }

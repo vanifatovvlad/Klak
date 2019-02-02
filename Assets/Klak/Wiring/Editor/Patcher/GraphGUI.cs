@@ -164,10 +164,10 @@ namespace Klak.Wiring.Patcher
         {
             SelectNode(node);
 
+            node.NodeUI(this);
+
             foreach (var slot in node.inputSlots)
                 LayoutSlot(slot, slot.title, false, true, true, Styles.pinIn);
-
-            node.NodeUI(this);
 
             foreach (var slot in node.outputSlots)
             {
@@ -176,6 +176,8 @@ namespace Klak.Wiring.Patcher
                 LayoutSlot(slot, slot.title, true, false, true, Styles.pinOut);
                 EditorGUILayout.EndHorizontal();
             }
+
+            GUILayout.Space(5);
 
             DragNodes();
         }

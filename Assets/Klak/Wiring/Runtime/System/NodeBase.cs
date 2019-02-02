@@ -38,6 +38,13 @@ namespace Klak.Wiring
         public InletAttribute() {}
     }
 
+    // Attribute for marking variables
+    [AttributeUsage(AttributeTargets.Field)]
+    public class VarletAttribute : Attribute
+    {
+        public VarletAttribute() {}
+    }
+
     // Attribute for marking outlets
     [AttributeUsage(AttributeTargets.Field)]
     public class OutletAttribute : Attribute

@@ -25,6 +25,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEditor;
 using System;
+using System.Linq;
 using System.Reflection;
 using Graphs = UnityEditor.Graphs;
 
@@ -90,6 +91,29 @@ namespace Klak.Wiring.Patcher
 
         #endregion
 
+        public override void NodeUI(Graphs.GraphGUI host)
+        {
+            base.NodeUI(host);
+
+            if (_varlets.Length > 0)
+            {
+                _serializedObject.Update();
+                var labelWidth = EditorGUIUtility.labelWidth;
+                EditorGUIUtility.labelWidth = 100;
+                
+                using (new GUILayout.VerticalScope(Styles.varletContainer))
+                {
+                    foreach (var property in _varlets)
+                    {
+                        EditorGUILayout.PropertyField(property);
+                    }
+                }
+
+                EditorGUIUtility.labelWidth = labelWidth;
+                _serializedObject.ApplyModifiedProperties();
+            }
+        }
+
         #region Private members
 
         // Runtime instance of this node
@@ -98,6 +122,7 @@ namespace Klak.Wiring.Patcher
         // Serialized property accessor
         SerializedObject _serializedObject;
         SerializedProperty _serializedPosition;
+        private SerializedProperty[] _varlets;
 
         // Initializer (called from the Create method)
         void Initialize(Wiring.NodeBase runtimeInstance)
@@ -108,7 +133,13 @@ namespace Klak.Wiring.Patcher
             _runtimeInstance = runtimeInstance;
             _serializedObject = new UnityEditor.SerializedObject(runtimeInstance);
             _serializedPosition = _serializedObject.FindProperty("_wiringNodePosition");
-
+            
+            _varlets = _runtimeInstance.GetType()
+                .GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
+                .Where(o => o.GetCustomAttribute<VarletAttribute>() != null)
+                .Select(o => _serializedObject.FindProperty(o.Name))
+                .ToArray();
+            
             // Basic information
             name = runtimeInstance.GetInstanceID().ToString();
             position = new Rect(_serializedPosition.vector2Value, Vector2.zero);
