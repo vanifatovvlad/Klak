@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace Klak.Wiring
 {
+    [NodeColor(NodeColor.Color.Aqua)]
     [AddComponentMenu("Klak/Wiring/Input/Random Value")]
     public class RandomValue : NodeBase
     {

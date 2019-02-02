@@ -26,6 +26,7 @@ using Klak.Math;
 
 namespace Klak.Wiring
 {
+    [NodeColor(NodeColor.Color.Aqua)]
     [AddComponentMenu("Klak/Wiring/Input/Noise")]
     public class Noise : NodeBase
     {
