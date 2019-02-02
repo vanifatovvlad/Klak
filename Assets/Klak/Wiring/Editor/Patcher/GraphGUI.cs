@@ -286,6 +286,7 @@ namespace Klak.Wiring.Patcher
             // Create a game object.
             var name = ObjectNames.NicifyVariableName(type.Name);
             var gameObject = new GameObject(name);
+            gameObject.hideFlags = HideFlags.HideInHierarchy;
             var nodeRuntime = (Wiring.NodeBase)gameObject.AddComponent(type);
             gameObject.transform.parent = ((Graph)graph).patch.transform;
 
