@@ -25,6 +25,7 @@ using UnityEngine;
 
 namespace Klak.Wiring
 {
+    [NodeColor(NodeColor.Color.Orange)]
     [AddComponentMenu("Klak/Wiring/Output/Component/Animator Out")]
     public class AnimatorOut : NodeBase
     {

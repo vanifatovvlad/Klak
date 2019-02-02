@@ -26,6 +26,7 @@ using System.Reflection;
 
 namespace Klak.Wiring
 {
+    [NodeColor(NodeColor.Color.Orange)]
     [AddComponentMenu("Klak/Wiring/Output/Renderer/Material Float Out")]
     public class MaterialFloatOut : NodeBase
     {

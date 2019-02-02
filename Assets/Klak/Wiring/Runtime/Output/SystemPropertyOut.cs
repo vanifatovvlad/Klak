@@ -26,6 +26,7 @@ using UnityEngine.Events;
 
 namespace Klak.Wiring
 {
+    [NodeColor(NodeColor.Color.Orange)]
     [AddComponentMenu("Klak/Wiring/Output/System Property Out")]
     public class SystemPropertyOut : NodeBase
     {
