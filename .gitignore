@@ -13,3 +13,22 @@ Desktop.ini
 /Temp
 
 /Extras/backup
+
+*.*~
+*.db
+*.sln
+*.userprefs
+*.csproj
+*.pidb
+*.unityproj
+*.stackdump
+/.vs/
+/.vscode/
+/obj
+/Build*
+/Logs/IncrementalCompiler
+/AssetBundles
+/.idea
+/Logs/
+/Assets/Plugins/Editor/JetBrains*
+/*.DotSettings.user
