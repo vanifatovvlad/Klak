@@ -31,6 +31,29 @@ using System;
 
 namespace Klak.Wiring
 {
+    [AttributeUsage(AttributeTargets.Class)]
+    public class NodeColor : Attribute
+    {
+        public Color color { get; }
+
+        public enum Color
+        {
+            Gray = 0,
+            Grey = 0,
+            Blue = 1,
+            Aqua = 2,
+            Green = 3,
+            Yellow = 4,
+            Orange = 5,
+            Red = 6,
+        }
+
+        public NodeColor(Color color)
+        {
+            this.color = color;
+        }
+    }
+
     // Attribute for marking inlets
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Method)]
     public class InletAttribute : Attribute

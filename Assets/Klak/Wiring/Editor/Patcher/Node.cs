@@ -144,6 +144,12 @@ namespace Klak.Wiring.Patcher
             name = runtimeInstance.GetInstanceID().ToString();
             position = new Rect(_serializedPosition.vector2Value, Vector2.zero);
 
+            var nodeColor = runtimeInstance.GetType().GetCustomAttribute<NodeColor>();
+            if (nodeColor != null)
+            {
+                color = (Graphs.Styles.Color)nodeColor.color;
+            }
+
             // Slot initialization
             PopulateSlots();
         }
