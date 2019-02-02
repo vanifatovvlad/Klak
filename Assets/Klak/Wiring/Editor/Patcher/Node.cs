@@ -172,7 +172,7 @@ namespace Klak.Wiring.Patcher
                 var slot = AddInputSlot("set_" + prop.Name, prop.PropertyType);
 
                 // Apply the standard nicifying rule.
-                slot.title = ObjectNames.NicifyVariableName(prop.Name);
+                slot.title = GetSlotTitle(prop.Name, false, prop.PropertyType);
             }
 
             // Inlets (method)
@@ -188,7 +188,7 @@ namespace Klak.Wiring.Patcher
                 var slot = AddInputSlot(method.Name, dataType);
 
                 // Apply the standard nicifying rule.
-                slot.title = ObjectNames.NicifyVariableName(method.Name);
+                slot.title = GetSlotTitle(method.Name, false, dataType);
             }
 
             // Outlets (UnityEvent members)
@@ -203,10 +203,26 @@ namespace Klak.Wiring.Patcher
                 var slot = AddOutputSlot(field.Name, dataType);
 
                 // Apply the standard nicifying rule and remove tailing "Event".
-                var title = ObjectNames.NicifyVariableName(field.Name);
-                if (title.EndsWith(" Event")) title = title.Substring(0, title.Length - 6);
-                slot.title = title;
+                slot.title =  GetSlotTitle(field.Name, true, dataType);
             }
+        }
+        
+        private static string GetSlotTitle(string name, bool isOutlet, Type dataType = null)
+        {
+            var title = ObjectNames.NicifyVariableName(name);
+            
+            if (isOutlet && title.EndsWith(" Event")) 
+                title = title.Substring(0, title.Length - 6);
+
+            if (dataType != null)
+            {
+                var typeName = dataType.Name;
+                title = isOutlet
+                    ? (Styles.GetSlotTypeRichLabel(typeName) + " " + title)
+                    : (title + " " + Styles.GetSlotTypeRichLabel(typeName));
+            }
+
+            return title;
         }
 
         // Scan all inlets/outlets and populate edges.

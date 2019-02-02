@@ -74,5 +74,10 @@ namespace Klak.Wiring.Patcher
                 stretchHeight = false
             };
         }
+
+        public static string GetSlotTypeRichLabel(string type)
+        {
+            return ("<color=#444><i>" + type + "</i></color>");
+        }
     }
 }
