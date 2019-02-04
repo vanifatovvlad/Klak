@@ -102,7 +102,7 @@ namespace Klak.Wiring.Patcher
             // Create a paste point. It has two level depth.
             var point1 = new GameObject("<PastePoint1>");
             var point2 = new GameObject("<PastePoint2>");
-            point1.transform.parent = g.patch.transform;
+            point1.transform.parent = g.patch.GetOrCreateNodesRoot();
             point2.transform.parent = point1.transform;
 
             // Select the paste point in the scene hierarchy.
@@ -117,7 +117,7 @@ namespace Klak.Wiring.Patcher
             // Move pasted objects to the right position.
             var instances = point1.GetComponentsInChildren<Wiring.NodeBase>();
             foreach (var i in instances)
-                i.transform.parent = g.patch.transform;
+                i.transform.parent = g.patch.GetOrCreateNodesRoot();
 
             // Point1 (group) is not needed anymore.
             DestroyImmediate(point1);
@@ -288,7 +288,7 @@ namespace Klak.Wiring.Patcher
             var gameObject = new GameObject(name);
             //gameObject.hideFlags = HideFlags.HideInHierarchy;
             var nodeRuntime = (Wiring.NodeBase)gameObject.AddComponent(type);
-            gameObject.transform.parent = ((Graph)graph).patch.transform;
+            gameObject.transform.parent = ((Graph)graph).patch.GetOrCreateNodesRoot();
 
             // Add it to the graph.
             var node = Node.Create(nodeRuntime);

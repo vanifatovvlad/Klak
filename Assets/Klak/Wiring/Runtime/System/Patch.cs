@@ -29,5 +29,18 @@ namespace Klak.Wiring
     {
         [SerializeField, HideInInspector]
         public bool _wiringSelected;
+
+        public Transform GetOrCreateNodesRoot()
+        {
+            const string NodesPath = "Klak.Wiring";
+            var root = transform.Find(NodesPath);
+            if (root == null)
+            {
+                root = new GameObject(NodesPath).transform;
+                root.SetParent(transform);
+            }
+
+            return root;            
+        }
     }
 }
