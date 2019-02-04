@@ -21,6 +21,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 //
+
+using System.Linq;
 using UnityEngine;
 using UnityEditor;
 
@@ -30,6 +32,8 @@ namespace Klak.Wiring.Patcher
     [CustomEditor(typeof(Node))]
     class NodeEditor : Editor
     {
+        private string[] _addComponentPath;
+        
         // Node component editor
         Editor _editor;
 
@@ -37,6 +41,17 @@ namespace Klak.Wiring.Patcher
         {
             if (_editor == null)
                 _editor = CreateEditor(((Node)target).runtimeInstance);
+            
+            _addComponentPath = ((Node)target).runtimeInstance.GetType()
+                .GetCustomAttributes(typeof(AddComponentMenu), true)
+                .Select(o => (AddComponentMenu)o)
+                .Select(o => o.componentMenu)
+                .Select(o =>
+                {
+                    const string Prefix = "Klak/Wiring/";
+                    return o.StartsWith(Prefix) ? o.Substring(Prefix.Length) : o;
+                })
+                .ToArray();            
         }
 
         void OnDestroy()
@@ -55,16 +70,24 @@ namespace Klak.Wiring.Patcher
 
             if (_editor == null || !node.isValid) return;
 
-            EditorGUILayout.Space();
-
             // Retrieve the header title (type name).
             var instance = node.runtimeInstance;
             var title = ObjectNames.NicifyVariableName(instance.GetType().Name);
 
             // Show the header title.
-            GUILayout.BeginHorizontal();
+            GUILayout.BeginHorizontal(Styles.inspectorHeader);
             GUILayout.Space(14);
+            GUILayout.BeginVertical();
+            GUILayout.Space(10);
             EditorGUILayout.LabelField(title, EditorStyles.boldLabel);
+
+            foreach (var path in _addComponentPath)
+            {
+                EditorGUILayout.LabelField(path, EditorStyles.miniLabel);
+            }
+
+            GUILayout.Space(10);
+            GUILayout.EndVertical();
             GUILayout.EndHorizontal();
 
             EditorGUILayout.Space();

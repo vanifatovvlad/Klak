@@ -61,6 +61,7 @@ namespace Klak.Wiring.Patcher
         }
         
         public static readonly GUIStyle varletContainer;
+        public static readonly GUIStyle inspectorHeader;
 
         static Styles()
         {
@@ -70,6 +71,14 @@ namespace Klak.Wiring.Patcher
             {
                 margin = new RectOffset(0, 0, 5, 5),
                 padding = new RectOffset(0, 0, 5, 5),
+                stretchWidth = false,
+                stretchHeight = false
+            };
+            
+            inspectorHeader = new GUIStyle(builtinSkin.GetStyle("IN BigTitle Post"))
+            {
+                margin = new RectOffset(),
+                padding = new RectOffset(),
                 stretchWidth = false,
                 stretchHeight = false
             };
